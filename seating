@@ -1,0 +1,69 @@
+//Declare Global Variables
+Var S = 0		                                      //Stores the total number of seats
+Var ES = 0		                                    //Stores the number of empty seats
+Var C = 0		                                      //Stores the number of new guests
+Var P = 0		                                      //Stores the position of the seat
+Var K = 0		                                      //Stores the number of arrivals and departures   
+
+Method arrival (A_guest, A_group)			            //takes the input number of guest/ group 
+	Var Guests = A_guest				                    //variable to hold guest number
+	Var Group = A_group				                      //variable to hold group number
+Loop While counter <= S OR Guest > 0
+      IF MyArray[counter, 2] = 0			            //checks for empty seat
+              MyArray[counter, 2] = 1			        //adds guest to seat
+              MyArray[counter, 1] = group		      //adds the group number
+              Guests = Guests -1			            //reduces the group by 1 guest
+              counter = counter + 1			          // adds 1 to loop counter
+End Loop
+End method
+
+Method depart (P)
+	Var group as integer				                    //Declares variable to store group
+	MyArray[P, 2] = 0				                        //Deletes the guest at the seat position
+	group = MyArray[P, 1]				                    //Stores the group of the deleted guest
+	ES = ES + 1					                            //Increases empty seats by 1
+	Loop while counter <= S				                  //go through the array deleting the group
+	     IF MyArray[counter, 1] = group		          //tests if the guest is in the same group
+            MyArray[counter, 1] = 0			          //Deletes the group number
+ 	          MyArray[counter, 2] = 0			          //Deletes the guest
+	          ES = ES + 1				                    //Increases empty seats by 1
+	     End IF
+	Counter = counter + 1				                    //adds 1 to the loop counter
+	End loop
+End method
+
+Method output
+	Loop While counter <= S
+Var ans as string			                           //Declares the variable to store answer
+ans = ans + MyArray[counter, 2]		               //Concatenates the array value and answer 
+	End Loop
+	Output ans					//Outputs the answer
+End method
+
+// Start of the main program
+
+S = Input						                             //Reads the number of seats
+K = Input						                             //Reads the number of arrivals/departures
+ES = S							                             //sets all seats variable to empty
+Var MyArray[S, 2] as Integer				             //Declares 2D array to store the data
+Var operation as string = input				           //Defines variable to store if arrival/depart
+Var temp as integer = input				               //defines variable customers/position
+Loop while counter <= K
+Operation = Input					                       //Reads if an arrival or departure
+temp = Input						                         //Reads guests or position to temp var
+     If operation = A Then					             //Checks if departure or arrival
+          C = temp						                   //Assigns the number of customers
+          If C <= ES						                 //Check there is enough seats
+               ES = ES – C					             //Reduces the number of empty seats
+               arrival(C, counter +1)				     //Calls arrival method, groups from 1 to S 
+    Else
+          P = temp						                   //Assigns the eat position     
+          depart(P)						                   //Calls the departure method
+Counter = counter -1					                   //Adds 1 to the loop counter
+End Loop
+
+Notes
+There are two flaws in the example which are as follows:
+•	In the instructions it states that D stands for departure but in the example this is replaced with L
+•	The second line of the example should denote the total number of arrivals and departure but is missing. This is not a serious problem and can be solved when writing the program by using a “While not end of file” statement.
+There is also a slight problem in the code above which I have intentionally allowed to remain. It takes the group number from the loop counter which means it increase by 1 after every iteration of the loop. Therefore, if the first input is an arrival they would be named group 1 if the next two inputs are departures and the fourth an arrival then the second group will be named group 4 not group 2 as a result of the loop being executed four times. This will not force the program to crash and can be easily fixed but I have let it remain as a talking point. 
