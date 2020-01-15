@@ -1,0 +1,79 @@
+s = int(input("How many seats in the restaurant "))
+seats = [ ]
+binaryVal = [ ]
+for i in range(s):
+    seats.append(0)
+    binaryVal.append(0)
+    binaryVal[i] = 0
+
+groupNum = 1
+
+
+def arrival(numPeople):
+    global groupNum
+    global s
+    numberPeople = numPeople
+    seat = 0
+    while numPeople > 0:
+        if seat == s:
+            print("The resaurant is full, please come back later")
+            for i in range(s):
+                if seats[i] == groupNum:
+                    seats[i] = 0
+            break
+        if seats[seat] == 0:
+            seats[seat] = groupNum
+            seat += 1
+            numPeople -= 1
+        else:
+            seat += 1
+
+    currentGroup = [ ]
+    
+    for i in range(s):
+        if seats[i] == groupNum:
+            currentGroup.append(i)
+            
+
+    print("The current seating plan is " + str(seats))
+    print("Group " + str(groupNum) + " sits in seats " + str(currentGroup))
+    print(" ")
+    
+    groupNum += 1
+
+
+def departure(group):
+    global groupNum
+    global s
+    global g_number
+    g_number = seats[group]
+    seats[group] = 0
+    for i in range(s):
+       if seats[i] == g_number:
+        seats[i] = 0
+        
+
+while True:
+    action = int(input("Exit(0) or Arrival(1) or Departure(2) or Binary Output(3) "))
+    if action == 0:
+        break
+    elif action == 1:
+        numPeople = int(input("How many people in group "))
+        arrival(numPeople)
+    elif action == 2:
+        print("The current seating is " + str(seats)
+              )
+        group = int(input("Which seat is the person leaving from "))
+        departure(group)
+        print("The current seating plan is " + str(seats))
+        print("Group " + str(group) + " has been removed")
+        print(" ")
+    elif action == 3:
+        for i in range(s):
+            if seats[i] == 0:
+                binaryVal[i] = 0
+            else:
+                binaryVal[i] = 1
+        print("Binary Output " + str(binaryVal))
+    else:
+        print("Wrong input")
